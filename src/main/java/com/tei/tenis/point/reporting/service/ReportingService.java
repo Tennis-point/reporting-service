@@ -15,6 +15,7 @@ import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -51,7 +52,7 @@ public class ReportingService {
         return null;
     }
 
-    public Game getGame(String userId, String token) {
+    public Game getGame(String userId, String gameId, String token) {
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(GAME_SERVICE + "/game/" + userId + "/"))
             .GET()
             .header("Authorization", token).build();
@@ -68,7 +69,7 @@ public class ReportingService {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 log.info(response.body());
-                return objectMapper.readValue(response.body(), Game[].class)[0];
+                return Arrays.stream(objectMapper.readValue(response.body(), Game[].class)).filter(g -> g.getGameId().equals(gameId)).findFirst().get();
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }

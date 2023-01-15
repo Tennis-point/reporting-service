@@ -21,13 +21,13 @@ public class ReportingController {
 
     private final ReportingService reportingService;
 
-    @GetMapping(value = "/report/{userId}/")
-    public String getReport(@PathVariable String userId, HttpServletRequest request) {
+    @GetMapping(value = "/report/{userId}/game/{gameId}/")
+    public String getReport(@PathVariable String userId, @PathVariable String gameId, HttpServletRequest request) {
         log.info("trying to report for : " + userId);
         String token = request.getHeader("Authorization");
         User user = reportingService.getUser(userId, token);
         log.info(String.valueOf(user));
-        Game game = reportingService.getGame(user.getUserId(), token);
+        Game game = reportingService.getGame(user.getUserId(), gameId, token);
         log.info(String.valueOf(game));
         return reportingService.getReport(List.of(game), user);
     }

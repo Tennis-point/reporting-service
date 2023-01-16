@@ -1,1 +1,12 @@
-/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/main/ReportingApp.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/ReportingApp.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/model/Game.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/google/GoogleAuthorizeUtil.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/model/User.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/jwt/FilterConfig.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/model/Gem.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/jwt/JwtFilter.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/google/SheetsQuickstart.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/controller/ReportingController.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/model/Set.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/google/Create.java
+/Users/adamkazmierczak/Trento/sde/final_project/reporting-service/src/main/java/com/tei/tenis/point/reporting/service/ReportingService.java

@@ -2,16 +2,16 @@ package com.tei.tenis.point.reporting.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tei.tenis.point.reporting.google.SheetsQuickstart;
+import com.tei.tenis.point.reporting.google.GoogleSheet;
 import com.tei.tenis.point.reporting.model.Game;
 import com.tei.tenis.point.reporting.model.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
@@ -22,20 +22,18 @@ import java.util.List;
 @Slf4j
 public class ReportingService {
 
-    public static final String AUTH_SERVICE = "http://localhost:8081";
-    public static final String GAME_SERVICE = "http://localhost:4000";
+    @Value("${auth}")
+    public String AUTH_SERVICE;
+    @Value("${tennis}")
+    public String TENNIS_SERVICE;
 
     public User getUser(String userId, String token) {
-        log.info(token);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(AUTH_SERVICE + "/api/v1/user/" + userId))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(AUTH_SERVICE + userId))
             .GET()
             .header("Authorization", token).build();
-
-        log.info(request.toString());
-
         HttpResponse<String> response = null;
-
         try {
+            log.info("REPORTING -> AUTH :" + request.uri());
             response = HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -53,13 +51,14 @@ public class ReportingService {
     }
 
     public Game getGame(String userId, String gameId, String token) {
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(GAME_SERVICE + "/game/" + userId + "/"))
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(TENNIS_SERVICE + "game/" + userId + "/"))
             .GET()
             .header("Authorization", token).build();
 
         HttpResponse<String> response = null;
 
         try {
+            log.info("REPORTING -> TENNIS :" + request.uri());
             response = HttpClient.newHttpClient().send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -77,10 +76,9 @@ public class ReportingService {
         return null;
     }
 
-
     public String getReport(List<Game> games, User user) {
         try {
-            return SheetsQuickstart.createReport(games, user);
+            return GoogleSheet.createReport(games, user);
         } catch (Exception e) {
             e.printStackTrace();
             throw new IllegalArgumentException("Something went wrong.");

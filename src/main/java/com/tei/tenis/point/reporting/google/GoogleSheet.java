@@ -35,7 +35,7 @@ public class GoogleSheet {
 
     private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static Credential cred;
+    public static Credential cred;
 
     public static String createReport(List<Game> games, User user) throws GeneralSecurityException, IOException {
         if (cred == null) {

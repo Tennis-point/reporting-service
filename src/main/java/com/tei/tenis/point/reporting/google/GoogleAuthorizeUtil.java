@@ -1,5 +1,6 @@
 package com.tei.tenis.point.reporting.google;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -21,7 +22,6 @@ import java.util.List;
 @Slf4j
 public class GoogleAuthorizeUtil {
 
-
     public static Credential authorize() throws IOException, GeneralSecurityException {
         InputStream in = GoogleAuthorizeUtil.class.getResourceAsStream("/credentials.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new InputStreamReader(in));
@@ -34,5 +34,16 @@ public class GoogleAuthorizeUtil {
         return new AuthorizationCodeInstalledApp(flow, build).authorize("user");
     }
 
+    public static String getUrl() throws IOException, GeneralSecurityException {
+        InputStream in = GoogleAuthorizeUtil.class.getResourceAsStream("/credentials.json");
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(GsonFactory.getDefaultInstance(), new InputStreamReader(in));
+        List<String> scopes = List.of(SheetsScopes.SPREADSHEETS);
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(GoogleNetHttpTransport.newTrustedTransport(),
+            GsonFactory.getDefaultInstance(), clientSecrets, scopes).setDataStoreFactory(new MemoryDataStoreFactory())
+            .setAccessType("offline").build();
+        LocalServerReceiver build = new Builder().setPort(9000).build();
+
+        return new AuthorizationCodeInstalledApp(flow, build).getFlow().newAuthorizationUrl().setRedirectUri("http://localhost:9000/Callback").build();
+    }
 
 }
